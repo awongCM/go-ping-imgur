@@ -52,6 +52,14 @@ ping-imgur ping -t 5s cvWgXFc.jpg
 - Image ID with extension: `abc123.jpg` (uses the CDN)
 - Bare image ID: `abc123` (uses the gallery page)
 
+You can combine positional targets with `-f` (file targets are appended after CLI args).
+
+### What “OK” means
+
+- **CDN URL** (`abc123.jpg` or `i.imgur.com/...`): the image endpoint returned a successful HTTP status.
+- **Bare ID** (gallery page): the gallery HTML responded — not a guarantee the image file still exists.
+- Redirects to non-Imgur hosts are blocked. Imgur may return **429** if you ping too quickly from one IP.
+
 ## Example output
 
 ```text

@@ -30,3 +30,20 @@ func TestNormalizeTargetRejectsNonImgur(t *testing.T) {
 		t.Fatal("expected error for non-imgur URL")
 	}
 }
+
+func TestNormalizeTargetRejectsBadScheme(t *testing.T) {
+	_, err := NormalizeTarget("ftp://i.imgur.com/foo.jpg")
+	if err == nil {
+		t.Fatal("expected error for ftp scheme")
+	}
+}
+
+func TestNormalizeTargetStripsUserinfo(t *testing.T) {
+	got, err := NormalizeTarget("https://user:pass@i.imgur.com/foo.jpg")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got != "https://i.imgur.com/foo.jpg" {
+		t.Fatalf("got %q", got)
+	}
+}

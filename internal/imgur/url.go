@@ -19,9 +19,15 @@ func NormalizeTarget(raw string) (string, error) {
 		if err != nil {
 			return "", fmt.Errorf("invalid URL: %w", err)
 		}
-		if !isImgurHost(parsed.Host) {
+		switch strings.ToLower(parsed.Scheme) {
+		case "http", "https":
+		default:
+			return "", fmt.Errorf("unsupported URL scheme: %s", parsed.Scheme)
+		}
+		if !IsImgurHost(parsed.Host) {
 			return "", fmt.Errorf("not an imgur URL: %s", raw)
 		}
+		parsed.User = nil
 		return parsed.String(), nil
 	}
 
@@ -38,7 +44,8 @@ func NormalizeTarget(raw string) (string, error) {
 	return fmt.Sprintf("https://imgur.com/%s", id), nil
 }
 
-func isImgurHost(host string) bool {
+// IsImgurHost reports whether host is an Imgur-owned hostname.
+func IsImgurHost(host string) bool {
 	host = strings.ToLower(strings.TrimSuffix(host, "."))
 	return host == "imgur.com" ||
 		host == "www.imgur.com" ||

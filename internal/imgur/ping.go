@@ -31,7 +31,7 @@ func Ping(client *http.Client, target string) Result {
 	result.URL = url
 
 	if client == nil {
-		client = http.DefaultClient
+		client = NewClient(15 * time.Second)
 	}
 
 	start := time.Now()

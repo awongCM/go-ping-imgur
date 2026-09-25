@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -31,7 +30,7 @@ checking that your hosted images still respond.`,
 		Example: strings.TrimSpace(`
 ping-imgur ping cvWgXFc
 ping-imgur ping https://i.imgur.com/cvWgXFc.jpg
-ping-imgur ping -f images.txt`),
+ping-imgur ping -f images.example.txt`),
 		Args: cobra.ArbitraryArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			targets, err := collectTargets(args, file)
@@ -42,7 +41,7 @@ ping-imgur ping -f images.txt`),
 				return fmt.Errorf("provide targets as arguments or with --file")
 			}
 
-			client := &http.Client{Timeout: timeout}
+			client := imgur.NewClient(timeout)
 			okCount := 0
 
 			for _, target := range targets {
