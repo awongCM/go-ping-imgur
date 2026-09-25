@@ -1,0 +1,5 @@
+# Example targets — one URL or image ID per line.
+# Lines starting with # are ignored.
+
+cvWgXFc.jpg
+https://i.imgur.com/cvWgXFc.jpg
